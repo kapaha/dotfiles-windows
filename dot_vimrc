@@ -1,0 +1,105 @@
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" => General
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" how many lines vim has to remember
+ set history=500
+
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" => Mappings
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+let mapleader = ","
+
+" faster saving
+nnoremap <leader>w :w!<CR>
+" faster quiting
+nnoremap <leader>q :q<CR>
+" faster save + quit
+nnoremap <leader>x :x<CR>
+
+" substitute all occurrences of the word under the cursor:
+    " does not work in vscode
+" nnoremap <Leader>s :%s/\<<C-r><C-w>\>/
+  " vs code version
+nnoremap <Leader>s *:%s//
+
+" allows capital version of command to be used
+cnoreabbrev W! w!
+cnoreabbrev Q! q!
+cnoreabbrev Qall! qall!
+cnoreabbrev Wq wq
+cnoreabbrev Wa wa
+cnoreabbrev wQ wq
+cnoreabbrev WQ wq
+cnoreabbrev W w
+cnoreabbrev Q q
+cnoreabbrev Qall qall
+
+" H - move first non blank char
+" L - move non-blank char at end of line
+nnoremap H ^
+nnoremap L g_
+
+" Leader H = goto top of screen
+" Leader L - goto bottom of screen
+nnoremap <Leader>H H
+nnoremap <Leader>L L
+
+" map jk to <ESC>
+inoremap jk <ESC>
+
+" used to make backspace work in Visual Studio
+set backspace=indent,eol,start
+
+" Tab navigation using the the leader key and number row
+nnoremap <leader>1 1gt
+nnoremap <leader>2 2gt
+nnoremap <leader>3 3gt
+nnoremap <leader>4 4gt
+nnoremap <leader>5 5gt
+
+" Quickly insert an empty new line without entering insert mode
+nnoremap <Leader>o o<Esc>
+nnoremap <Leader>O O<Esc>
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" => VIM user interface
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+set number              " show line numbers
+set relativenumber      " show line number relative to current line
+set showcmd             " show command in bottom bar
+set cmdheight=2         " give more space for displaying messages
+
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" => Folding
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" syntax highlighting items specify folds
+set foldmethod=syntax
+" defines 1 col at window left, to indicate folding
+set foldcolumn=0
+" activate folding by JS syntax
+let javaScript_fold=1
+" start file with all folds opened
+set foldlevelstart=99
+
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" => Netrw
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" remove banner
+let g:netrw_banner = 0
+" change directory view
+let g:netrw_liststyle = 3
+
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" Searching
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+set incsearch           " search as characters are entered
+set smartcase           " when searching try to be smart about cases
+set hlsearch            " highlight matches
+set ignorecase          " ignore case when searching
+
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" Backup
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+set noswapfile                  " disable swapfiles
+set nobackup                    " disable backup files
+set undodir=~/.vim/undodir//    " set dir for undofiles
+set undofile                    " enable undofiles
