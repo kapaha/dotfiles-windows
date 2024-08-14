@@ -1,0 +1,34 @@
+[user]
+    name = Kai Paterson-Hall
+    email = {{ .email | quote }}
+[init]
+    defaultBranch = main
+[core]
+	editor = code --wait
+    excludesfile = /Users/kaiz/.gitignore_global
+	autocrlf = false
+[pull]
+	rebase = false
+[color]
+    # Enable colors in color-supporting terminals
+    ui = always
+[color "diff-highlight"]
+    oldNormal = red bold
+    oldHighlight = red bold 52
+    newNormal = green bold
+    newHighlight = green bold 22
+[color "diff"]
+    commit = green
+    meta = yellow
+    frag = cyan
+    old = red
+    new = green
+    whitespace = red reverse
+# [difftool]
+#     prompt = true
+# [diff]
+#     tool = vscode
+# [merge]
+#      tool = vscode
+# [mergetool "vscode"]
+#      cmd = code --wait $MERGED
