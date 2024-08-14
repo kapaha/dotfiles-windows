@@ -7,6 +7,20 @@ function gs {
     git status
 }
 
+function gd {
+    git diff
+}
+
+# Chezmoi
+
+function cm {
+    cd ~\.local\share\chezmoi\
+}
+
+function cmc {
+    cd ~\.config\chezmoi
+}
+
 function glo {
     git log --decorate --oneline
 }
