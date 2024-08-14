@@ -1,14 +1,17 @@
 [user]
     name = Kai Paterson-Hall
     email = kaizwebdesign@gmail.com
+[init]
+    defaultBranch = main
+[core]
+	editor = code --wait
+    excludesfile = /Users/kaiz/.gitignore_global
+	autocrlf = false
+[pull]
+	rebase = false
 [color]
     # Enable colors in color-supporting terminals
     ui = always
-[core]
-	editor = code --wait
-    # pager = /opt/homebrew/Cellar/git/2.37.3/share/git-core/contrib/diff-highlight/diff-highlight | less
-    excludesfile = /Users/kaiz/.gitignore_global
-	autocrlf = false
 [color "diff-highlight"]
     oldNormal = red bold
     oldHighlight = red bold 52
@@ -21,17 +24,11 @@
     old = red
     new = green
     whitespace = red reverse
-[init]
-    defaultBranch = main
-[difftool]
-    prompt = true
-[diff]
-    tool = nvimdiff
-[difftool "nvimdiff"]
-    cmd = "nvim -d \"$LOCAL\" \"$REMOTE\""
-[merge]
-     tool = vscode
-[mergetool "vscode"]
-     cmd = code --wait $MERGED
-[pull]
-	rebase = false
+# [difftool]
+#     prompt = true
+# [diff]
+#     tool = vscode
+# [merge]
+#      tool = vscode
+# [mergetool "vscode"]
+#      cmd = code --wait $MERGED
