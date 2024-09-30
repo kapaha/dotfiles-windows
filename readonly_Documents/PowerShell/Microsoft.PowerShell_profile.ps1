@@ -2,6 +2,9 @@ oh-my-posh --init --shell pwsh --config ~/jandedobbeleer.omp.json | Invoke-Expre
 
 Import-Module -Name Terminal-Icons
 
+Set-PSReadLineOption -PredictionSource History
+Set-PSReadLineOption -PredictionViewStyle ListView
+
 # Git
 function gs {
     git status
