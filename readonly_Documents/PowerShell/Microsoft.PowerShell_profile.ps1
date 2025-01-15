@@ -10,6 +10,18 @@ function gs {
     git status
 }
 
+function gb {
+    git branch
+}
+
+function gb {
+    git branch -v
+}
+
+function gbr {
+    git branch -rv
+}
+
 function gd {
     git diff
 }
