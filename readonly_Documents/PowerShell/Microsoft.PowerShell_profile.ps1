@@ -1,4 +1,4 @@
-oh-my-posh --init --shell pwsh --config ~/jandedobbeleer.omp.json | Invoke-Expression
+oh-my-posh --init --shell pwsh --config ~/my-theme.omp.json | Invoke-Expression
 
 Import-Module -Name Terminal-Icons
 
