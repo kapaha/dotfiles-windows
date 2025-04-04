@@ -26,6 +26,14 @@ function gd {
     git diff
 }
 
+function glo {
+    git log --decorate --oneline
+}
+
+function gfp {
+    git fetch -pv
+}
+
 # Chezmoi
 
 function cm {
@@ -34,10 +42,6 @@ function cm {
 
 function cmc {
     cd ~\.config\chezmoi
-}
-
-function glo {
-    git log --decorate --oneline
 }
 
 # Misc
