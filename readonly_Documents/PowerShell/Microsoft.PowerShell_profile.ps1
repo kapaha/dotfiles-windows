@@ -61,6 +61,10 @@ function learn {
     cd ~\learn
 }
 
+function cms {
+    cd ~\learn\public-repos\Umbraco-CMS
+}
+
 function tr {
     . $PROFILE
 }
