@@ -57,6 +57,10 @@ function rep {
     cd ~\repos
 }
 
+function prep {
+    cd "C:\Users\KaiPaterson-Hall\personal\repos"
+}
+
 function learn {
     cd ~\learn
 }
