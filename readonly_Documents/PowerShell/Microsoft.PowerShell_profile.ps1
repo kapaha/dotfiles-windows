@@ -57,6 +57,10 @@ function rep {
     cd ~\repos
 }
 
+function si {
+    cd ~\repos\sites
+}
+
 function prep {
     cd "C:\Users\KaiPaterson-Hall\personal\repos"
 }
