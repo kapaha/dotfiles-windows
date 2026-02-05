@@ -1,6 +1,7 @@
 oh-my-posh --init --shell pwsh --config ~/my-theme.omp.json | Invoke-Expression
 
 Import-Module -Name Terminal-Icons
+Import-Module posh-git
 
 Set-PSReadLineOption -PredictionSource History
 Set-PSReadLineOption -PredictionViewStyle ListView
@@ -57,9 +58,55 @@ function rep {
     cd ~\repos
 }
 
-function si {
+function site {
     cd ~\repos\sites
 }
+
+function git-mb-in {
+    param(
+        [Parameter(Mandatory)]
+        [string]$TargetBranch
+    )
+
+    $base = git merge-base HEAD $TargetBranch
+
+    Write-Host "`n=== Commits ===" -ForegroundColor Cyan
+    git log --oneline "$base..$TargetBranch"
+
+    Write-Host "`n=== Diff ===" -ForegroundColor Cyan
+    git diff "$base..$TargetBranch"
+}
+
+function git-mb-out {
+    param(
+        [Parameter(Mandatory)]
+        [string]$TargetBranch
+    )
+
+    $base = git merge-base HEAD $TargetBranch
+
+    Write-Host "`n=== Commits ===" -ForegroundColor Cyan
+    git log --oneline "$base..HEAD"
+
+    Write-Host "`n=== Diff ===" -ForegroundColor Cyan
+    git diff "$base..HEAD"
+}
+
+function git-mb {
+    param(
+        [Parameter(Mandatory)]
+        [string]$TargetBranch
+    )
+
+    $base = git merge-base HEAD $TargetBranch
+
+    Write-Host "`n=== YOUR CHANGES (base → HEAD) ===" -ForegroundColor Cyan
+    git difftool "$base..HEAD"
+
+    Write-Host "`n=== INCOMING CHANGES (base → $TargetBranch) ===" -ForegroundColor Green
+    git difftool "$base..$TargetBranch"
+}
+
 
 function prep {
     cd "C:\Users\KaiPaterson-Hall\personal\repos"
@@ -100,3 +147,18 @@ function cdf {
         Write-Host -Object '.NET Framework Version 4.5 or later is not detected.'
     }
 }
+
+Register-ArgumentCompleter -CommandName git-mb,git-mb-in,git-mb-out `
+    -ParameterName TargetBranch `
+    -ScriptBlock {
+        param($commandName, $parameterName, $wordToComplete)
+
+        git for-each-ref --format='%(refname:short)' refs/heads refs/remotes |
+            Where-Object { $_ -like "$wordToComplete*" } |
+            Sort-Object |
+            ForEach-Object {
+                [System.Management.Automation.CompletionResult]::new(
+                    $_, $_, 'ParameterValue', $_
+                )
+            }
+    }
