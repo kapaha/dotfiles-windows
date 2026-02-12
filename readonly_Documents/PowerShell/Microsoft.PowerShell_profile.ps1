@@ -76,6 +76,10 @@ function gfp {
     git fetch -pv
 }
 
+function gco {
+    git checkout
+}
+
 function git-mb-in {
     param(
         [Parameter(Mandatory)]
@@ -154,7 +158,7 @@ function cms {
 }
 
 # Setup git autocomplete
-Register-ArgumentCompleter -CommandName git-mb,git-mb-in,git-mb-out `
+Register-ArgumentCompleter -CommandName git-mb,git-mb-in,git-mb-out,gco `
     -ParameterName TargetBranch `
     -ScriptBlock {
         param($commandName, $parameterName, $wordToComplete)
