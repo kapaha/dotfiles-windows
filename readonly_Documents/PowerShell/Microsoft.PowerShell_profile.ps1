@@ -46,6 +46,10 @@ function cdf {
     }
 }
 
+function ip {
+    nslookup myip.opendns.com resolver1.opendns.com.
+}
+
 # Git
 
 function gs {
@@ -77,7 +81,12 @@ function gfp {
 }
 
 function gco {
-    git checkout
+    param(
+        [Parameter(Mandatory)]
+        [string]$TargetBranch
+    )
+
+    git checkout $TargetBranch
 }
 
 function git-mb-in {
