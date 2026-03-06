@@ -1,9 +1,9 @@
-oh-my-posh --init --shell pwsh --config ~/my-theme.omp.json | Invoke-Expression
+oh-my-posh init pwsh --config ~/my-theme.omp.json | Invoke-Expression
 
 # Modules
 
-Import-Module -Name Terminal-Icons
-Import-Module posh-git
+Import-Module -Name Terminal-Icons -ErrorAction SilentlyContinue
+Import-Module posh-git -ErrorAction SilentlyContinue
 
 Set-PSReadLineOption -PredictionSource History
 Set-PSReadLineOption -PredictionViewStyle ListView
@@ -18,7 +18,7 @@ function tab {
     wt -w 0 nt -d .
 }
 
-function tr {
+function reload {
     . $PROFILE
 }
 
@@ -51,43 +51,6 @@ function ip {
 }
 
 # Git
-
-function gs {
-    git status
-}
-
-function gb {
-    git branch
-}
-
-function gb {
-    git branch -v
-}
-
-function gbr {
-    git branch -rv
-}
-
-function gd {
-    git diff
-}
-
-function glo {
-    git log --decorate --oneline
-}
-
-function gfp {
-    git fetch -pv
-}
-
-function gco {
-    param(
-        [Parameter(Mandatory)]
-        [string]$TargetBranch
-    )
-
-    git checkout $TargetBranch
-}
 
 function git-mb-in {
     param(
@@ -167,7 +130,7 @@ function cms {
 }
 
 # Setup git autocomplete
-Register-ArgumentCompleter -CommandName git-mb,git-mb-in,git-mb-out,gco `
+Register-ArgumentCompleter -CommandName git-mb,git-mb-in,git-mb-out `
     -ParameterName TargetBranch `
     -ScriptBlock {
         param($commandName, $parameterName, $wordToComplete)
