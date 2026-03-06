@@ -4,15 +4,16 @@
 [init]
     defaultBranch = main
 [core]
-	editor = code --wait
+    editor = code --wait
     excludesfile = ~/.gitignore_global
-	autocrlf = true
+    autocrlf = true
     longpaths = true
 [pull]
-	rebase = false
+    rebase = false
+[fetch]
+    prune = true
 [color]
-    # Enable colors in color-supporting terminals
-    ui = always
+    ui = auto
 [color "diff-highlight"]
     oldNormal = red bold
     oldHighlight = red bold 52
@@ -27,9 +28,19 @@
     whitespace = red reverse
 [diff]
     tool = vscode
+[difftool "vscode"]
+    cmd = code --wait --diff $LOCAL $REMOTE
 [difftool]
     prompt = true
-# [merge]
-#      tool = vscode
-# [mergetool "vscode"]
-#      cmd = code --wait $MERGED
+[merge]
+    tool = vscode
+[mergetool "vscode"]
+    cmd = code --wait $MERGED
+[alias]
+    s = status
+    b = branch -v
+    br = branch -rv
+    d = diff
+    lo = log --decorate --oneline
+    fp = fetch -pv
+    co = checkout
