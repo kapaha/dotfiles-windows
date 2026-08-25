@@ -129,6 +129,30 @@ function cms {
     cd "~\learn\public-repos\Umbraco-CMS"
 }
 
+function docs {
+    cd "~\learn\public-repos\UmbracoDocs"
+}
+
+function upgrade {
+    cd "~\Documents\Work\tasks\umbraco-upgrade-13-17"
+}
+
+function time {
+    param (
+        [Parameter(Mandatory = $true)]
+        [string]$Date
+    )
+
+    $env:GIT_COMMITTER_DATE = $Date
+
+    git commit --amend --no-edit --date="$Date"
+
+    Remove-Item Env:\GIT_COMMITTER_DATE
+
+    git log -1 --format=fuller
+}
+
+
 # Setup git autocomplete
 Register-ArgumentCompleter -CommandName git-mb,git-mb-in,git-mb-out `
     -ParameterName TargetBranch `
