@@ -137,7 +137,7 @@ function upgrade {
     cd "~\Documents\Work\tasks\umbraco-upgrade-13-17"
 }
 
-# 2026-08-26 15:30:00 +0100
+# time "2026-08-26 15:30:00 +0100"
 function time {
     param (
         [Parameter(Mandatory = $true)]
