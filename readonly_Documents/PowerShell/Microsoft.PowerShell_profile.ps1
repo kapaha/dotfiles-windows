@@ -137,6 +137,7 @@ function upgrade {
     cd "~\Documents\Work\tasks\umbraco-upgrade-13-17"
 }
 
+# 2026-08-26 15:30:00 +0100
 function time {
     param (
         [Parameter(Mandatory = $true)]
@@ -152,6 +153,14 @@ function time {
     git log -1 --format=fuller
 }
 
+function Clear-PSHistory {
+    $historyPath = (Get-PSReadLineOption).HistorySavePath
+
+    if (Test-Path $historyPath) {
+        Clear-Content -Path $historyPath
+        Write-Host "PSReadLine history cleared."
+    }
+}
 
 # Setup git autocomplete
 Register-ArgumentCompleter -CommandName git-mb,git-mb-in,git-mb-out `
