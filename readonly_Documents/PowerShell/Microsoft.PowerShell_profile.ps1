@@ -151,14 +151,17 @@ function time {
     Remove-Item Env:\GIT_COMMITTER_DATE
 
     git log -1 --format=fuller
+
+    Clear-PSHistory
 }
 
 function Clear-PSHistory {
+    Clear-History
+
     $historyPath = (Get-PSReadLineOption).HistorySavePath
 
     if (Test-Path $historyPath) {
         Clear-Content -Path $historyPath
-        Write-Host "PSReadLine history cleared."
     }
 }
 
