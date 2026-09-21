@@ -111,11 +111,14 @@ function rep {
     cd "~\repos"
 }
 
+# Directories
 function site {
     cd "~\repos\sites"
 }
 
-# Directories
+function ica {
+    cd "~\repos\Sites\v17\ICA\umbraco-17"
+}
 
 function prep {
     cd "~\personal\repos"
