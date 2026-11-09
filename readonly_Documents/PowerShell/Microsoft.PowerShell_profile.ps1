@@ -119,7 +119,10 @@ function Get-SiteFolders {
 }
 
 function site {
-    param([Parameter(ValueFromRemainingArguments)][string[]]$Name)
+    param(
+        [Parameter(ValueFromRemainingArguments)][string[]]$Name,
+        [switch]$o
+    )
 
     if (-not $Name) {
         cd "~\repos\sites"
@@ -148,6 +151,10 @@ function site {
     }
 
     cd $found.Dir.FullName
+
+    if ($o) {
+        code .
+    }
 }
 
 function prep {
