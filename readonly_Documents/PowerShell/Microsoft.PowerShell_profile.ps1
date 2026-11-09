@@ -112,12 +112,42 @@ function rep {
 }
 
 # Directories
-function site {
-    cd "~\repos\sites"
+function Get-SiteFolders {
+    $root = "~\repos\sites"
+    Get-ChildItem $root -Directory | Where-Object Name -ne 'v17'
+    Get-ChildItem "$root\v17" -Directory
 }
 
-function ica {
-    cd "~\repos\Sites\v17\ICA\umbraco-17"
+function site {
+    param([Parameter(ValueFromRemainingArguments)][string[]]$Name)
+
+    if (-not $Name) {
+        cd "~\repos\sites"
+        return
+    }
+
+    $Name = $Name -join ' '
+    $query = $Name -replace '\s', ''
+    $sites = Get-SiteFolders | ForEach-Object {
+        [pscustomobject]@{ Dir = $_; Key = $_.Name -replace '\s', '' }
+    }
+
+    $found = $sites | Where-Object Key -eq $query
+    if (-not $found) { $found = $sites | Where-Object Key -like "$query*" }
+    if (-not $found) { $found = $sites | Where-Object Key -like "*$query*" }
+
+    if (-not $found) {
+        Write-Host "No site matching '$Name'" -ForegroundColor Red
+        return
+    }
+
+    if (@($found).Count -gt 1) {
+        Write-Host "Multiple sites match '$Name':" -ForegroundColor Yellow
+        $found | ForEach-Object { Write-Host "  $($_.Dir.Name)" }
+        return
+    }
+
+    cd $found.Dir.FullName
 }
 
 function prep {
@@ -166,6 +196,17 @@ function Clear-PSHistory {
     if (Test-Path $historyPath) {
         Clear-Content -Path $historyPath
     }
+}
+
+Register-ArgumentCompleter -CommandName site -ParameterName Name -ScriptBlock {
+    param($commandName, $parameterName, $wordToComplete)
+
+    Get-SiteFolders |
+        Where-Object { $_.Name -like "*$wordToComplete*" } |
+        ForEach-Object {
+            $text = if ($_.Name -match '\s') { "'$($_.Name)'" } else { $_.Name }
+            [System.Management.Automation.CompletionResult]::new($text, $_.Name, 'ParameterValue', $_.FullName)
+        }
 }
 
 # Setup git autocomplete
