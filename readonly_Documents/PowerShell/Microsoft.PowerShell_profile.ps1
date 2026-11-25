@@ -118,6 +118,40 @@ function Get-SiteFolders {
     Get-ChildItem "$root\v17" -Directory
 }
 
+function Get-LibraryFolders {
+    Get-ChildItem "~\repos\Libraries" -Directory
+}
+
+function Enter-MatchingFolder {
+    param($Folders, [string]$Name, [switch]$Open)
+
+    $query = $Name -replace '\s', ''
+    $candidates = $Folders | ForEach-Object {
+        [pscustomobject]@{ Dir = $_; Key = $_.Name -replace '\s', '' }
+    }
+
+    $found = $candidates | Where-Object Key -eq $query
+    if (-not $found) { $found = $candidates | Where-Object Key -like "$query*" }
+    if (-not $found) { $found = $candidates | Where-Object Key -like "*$query*" }
+
+    if (-not $found) {
+        Write-Host "No folder matching '$Name'" -ForegroundColor Red
+        return
+    }
+
+    if (@($found).Count -gt 1) {
+        Write-Host "Multiple folders match '$Name':" -ForegroundColor Yellow
+        $found | ForEach-Object { Write-Host "  $($_.Dir.Name)" }
+        return
+    }
+
+    cd $found.Dir.FullName
+
+    if ($Open) {
+        code .
+    }
+}
+
 function site {
     param(
         [Parameter(ValueFromRemainingArguments)][string[]]$Name,
@@ -129,32 +163,21 @@ function site {
         return
     }
 
-    $Name = $Name -join ' '
-    $query = $Name -replace '\s', ''
-    $sites = Get-SiteFolders | ForEach-Object {
-        [pscustomobject]@{ Dir = $_; Key = $_.Name -replace '\s', '' }
-    }
+    Enter-MatchingFolder (Get-SiteFolders) ($Name -join ' ') -Open:$o
+}
 
-    $found = $sites | Where-Object Key -eq $query
-    if (-not $found) { $found = $sites | Where-Object Key -like "$query*" }
-    if (-not $found) { $found = $sites | Where-Object Key -like "*$query*" }
+function lib {
+    param(
+        [Parameter(ValueFromRemainingArguments)][string[]]$Name,
+        [switch]$o
+    )
 
-    if (-not $found) {
-        Write-Host "No site matching '$Name'" -ForegroundColor Red
+    if (-not $Name) {
+        cd "~\repos\Libraries"
         return
     }
 
-    if (@($found).Count -gt 1) {
-        Write-Host "Multiple sites match '$Name':" -ForegroundColor Yellow
-        $found | ForEach-Object { Write-Host "  $($_.Dir.Name)" }
-        return
-    }
-
-    cd $found.Dir.FullName
-
-    if ($o) {
-        code .
-    }
+    Enter-MatchingFolder (Get-LibraryFolders) ($Name -join ' ') -Open:$o
 }
 
 function prep {
@@ -205,10 +228,12 @@ function Clear-PSHistory {
     }
 }
 
-Register-ArgumentCompleter -CommandName site -ParameterName Name -ScriptBlock {
+Register-ArgumentCompleter -CommandName site, lib -ParameterName Name -ScriptBlock {
     param($commandName, $parameterName, $wordToComplete)
 
-    Get-SiteFolders |
+    $folders = if ($commandName -eq 'lib') { Get-LibraryFolders } else { Get-SiteFolders }
+
+    $folders |
         Where-Object { $_.Name -like "*$wordToComplete*" } |
         ForEach-Object {
             $text = if ($_.Name -match '\s') { "'$($_.Name)'" } else { $_.Name }
